@@ -3,6 +3,7 @@ require('dotenv').config();
 const express = require('express');
 const app = express();
 const workouts = require('./routes/api/workouts');
+const users = require('./routes/api/users');
 const connectToMongoDB = require('./configs/db');
 
 app.use((req, res, next) => {
@@ -13,6 +14,7 @@ app.use(express.json());
 
 // Request handlers
 app.use('/api/workouts', workouts);
+app.use('/api/auth', users);
 
 const PORT = process.env.PORT || 4000;
 

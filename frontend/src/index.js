@@ -3,11 +3,20 @@ import ReactDOM from 'react-dom/client';
 import './index.css';
 import App from './App';
 import reportWebVitals from './reportWebVitals';
+import { BrowserRouter } from 'react-router-dom';
+import { WorkoutProvider } from './contexts/workout.context';
+import { AuthProvider } from './contexts/auth.context';
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
   <React.StrictMode>
-    <App />
+    <BrowserRouter>
+      <AuthProvider>
+        <WorkoutProvider>
+          <App />
+        </WorkoutProvider>
+      </AuthProvider>
+    </BrowserRouter>
   </React.StrictMode>
 );
 

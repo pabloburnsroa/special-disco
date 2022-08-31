@@ -16,8 +16,12 @@ const workoutSchema = new Schema(
       type: Number,
       required: true,
     },
+    // user_id: {
+    //   type: String,
+    //   required: true,
+    // },
   },
   { timestamps: true }
 );
 
-module.exports = Workout = mongoose.model('Workout', workoutSchema);
+module.exports = mongoose.model('Workout', workoutSchema);
