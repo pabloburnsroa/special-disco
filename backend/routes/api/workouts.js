@@ -5,8 +5,12 @@ const {
   getWorkout,
   getWorkouts,
   deleteWorkout,
-  updateWorkout
+  updateWorkout,
 } = require('../../controllers/workoutController');
+
+const auth = require('../../middlewares/auth');
+
+router.use(auth);
 
 // @route   GET api/workouts
 // @desc    Get all workouts

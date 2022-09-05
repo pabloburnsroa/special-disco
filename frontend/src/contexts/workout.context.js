@@ -60,11 +60,17 @@ export const WorkoutProvider = ({ children }) => {
     dispatch({ type: WORKOUT_ACTION_TYPES.SET_WORKOUTS, payload: newWorkouts });
   };
 
-  const getWorkouts = async () => {
+  const getWorkouts = async ({ user }) => {
     try {
-      const response = await fetch('/api/workouts/');
+      const response = await fetch('/api/workouts/', {
+        headers: {
+          'Authorization:': `Bearer ${user.token}`,
+        },
+      });
       const json = await response.json();
-      dispatch({ type: WORKOUT_ACTION_TYPES.SET_WORKOUTS, payload: json });
+      if (response.ok) {
+        dispatch({ type: WORKOUT_ACTION_TYPES.SET_WORKOUTS, payload: json });
+      }
     } catch (error) {
       dispatch({
         type: WORKOUT_ACTION_TYPES.WORKOUT_ERROR,
