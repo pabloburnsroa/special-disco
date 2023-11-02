@@ -1,31 +1,35 @@
-require('dotenv').config();
+require("dotenv").config();
 
-const express = require('express');
+const express = require("express");
 const app = express();
-const workouts = require('./routes/api/workouts');
-const users = require('./routes/api/users');
-const connectToMongoDB = require('./configs/db');
+const workoutRoutes = require("./routes/workouts");
+const userRoutes = require("./routes/users");
+const connectToMongoDB = require("./utils/connect");
+const log = require("./utils/logger");
+const swaggerDocs = require("./utils/swagger");
 
-app.use((req, res, next) => {
-  console.log(req.path, req.method);
-  next();
-});
 app.use(express.json());
 
-// Request handlers
-app.use('/api/workouts', workouts);
-app.use('/api/auth', users);
+app.use((req, res, next) => {
+  log.info(req.path, req.method);
+  next();
+});
 
-const PORT = process.env.PORT || 4000;
+// Request handlers
+app.use("/api/v1/workouts", workoutRoutes);
+app.use("/api/v1/auth", userRoutes);
+
+const port = process.env.PORT || 4000;
 
 const connectDB = async () => {
   try {
     await connectToMongoDB();
-    app.listen(PORT, () => {
-      console.log('Listening on PORT 4000');
+    app.listen(port, () => {
+      log.info(`App is running at http://localhost:${port}`);
+      swaggerDocs(app, port);
     });
   } catch (error) {
-    console.log(`Error: ${error.message}`);
+    log.info(`Error: ${error.message}`);
     process.exit(1);
   }
 };
